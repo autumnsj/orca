@@ -4912,6 +4912,7 @@ export default function SessionScreen() {
                 {/* Input bar */}
                 {liveInputEnabled ? (
                   <View style={[styles.inputBar, styles.liveInputBar]}>
+                    <KeypadLayoutToggle layout={keypadLayout} onChange={setKeypadLayout} />
                     <Pressable
                       style={({ pressed }) => [
                         styles.liveInputFocusTarget,
@@ -4924,7 +4925,6 @@ export default function SessionScreen() {
                       accessibilityLabel="Show keyboard for live terminal input"
                       accessibilityHint="Typed text is sent directly to the active terminal"
                     >
-                      <KeyboardIcon size={16} color={colors.textSecondary} strokeWidth={2} />
                       <MobileTerminalLiveInputStatus
                         dictation={dictation}
                         isAttaching={isAttaching}
