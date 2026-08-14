@@ -4723,6 +4723,15 @@ export default function SessionScreen() {
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps="always"
                     scrollEnabled={keypadLayout === 'shortcuts'}
+                    // Why: onContentSizeChange reports the content's natural height
+                    // (independent of this ScrollView's fixed frame), unlike the grid's
+                    // onLayout which gets stretched to the frame inside a fixed-height
+                    // scroll view and would over-report rows.
+                    onContentSizeChange={(_width, contentHeight) => {
+                      if (keypadLayout === 'shortcuts') {
+                        measureKeypadContent(contentHeight)
+                      }
+                    }}
                   >
                     {keypadLayout === 'keyboard' ? (
                       <TerminalVirtualKeyboard
@@ -4731,12 +4740,7 @@ export default function SessionScreen() {
                         onRepeatBytes={(bytes) => startAccessoryRepeat({ bytes })}
                       />
                     ) : (
-                      <View
-                        style={styles.accessoryGrid}
-                        onLayout={(event) =>
-                          measureKeypadContent(event.nativeEvent.layout.height)
-                        }
-                      >
+                      <View style={styles.accessoryGrid}>
                         {/* Why: fixed keyboard escape hatch; first in the grid so it can't scroll away or be hidden (#5106). */}
                         {keyboardLift > 0 && (
                           <Pressable

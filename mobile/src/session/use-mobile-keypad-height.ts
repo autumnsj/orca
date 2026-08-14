@@ -15,7 +15,9 @@ const MIN_ROWS = 1
 // so a "stride" of keyHeight + rowGap maps rows <-> pixels exactly, with no
 // leftover gap or clipped row.
 const ROW_STRIDE = ACCESSORY_KEY_HEIGHT + ACCESSORY_ROW_GAP
-const INITIAL_ROWS = 2
+// Why: start at one row and grow to the real content height on the first
+// onContentSizeChange, so we never flash empty space below a single-row grid.
+const INITIAL_ROWS = 1
 
 // Why: dragging the handle resizes between whole rows and snaps on release so
 // it never sits on a half-clipped row or wastes vertical space. It also can't
